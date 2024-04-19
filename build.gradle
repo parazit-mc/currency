@@ -1,0 +1,62 @@
+plugins {
+	id 'java'
+	id 'idea'
+	id 'org.springframework.boot' version '3.2.4'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id "com.diffplug.spotless" version "6.25.0"
+}
+
+group = 'com.currencyexchange'
+version = '1.0.0'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.liquibase:liquibase-core:4.27.0'
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+	implementation 'org.springdoc:springdoc-openapi-starter-common:2.2.0'
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.18'
+	implementation 'org.springdoc:springdoc-openapi-data-rest:1.7.0'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.zonky.test:embedded-postgres:2.0.7'
+	testImplementation 'io.zonky.test:embedded-database-spring-test:2.5.1'
+}
+
+allprojects{
+	apply plugin: 'com.diffplug.spotless'
+	apply plugin: 'idea'
+}
+
+spotless {
+	java {
+		removeUnusedImports()
+		googleJavaFormat('1.21.0')
+	}
+}
+
+tasks.named('build').configure {
+	dependsOn spotlessApply
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

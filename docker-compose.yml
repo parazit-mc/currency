@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  postgres-db:
+    image: postgres:16.2-alpine
+    user: postgres
+    container_name: postgres-db
+    hostname: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: currency
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    networks:
+      - backend_network
+    volumes:
+      - "./local/db/:/docker-entrypoint-initdb.d/"
+
+networks:
+  backend_network:
+    driver: bridge

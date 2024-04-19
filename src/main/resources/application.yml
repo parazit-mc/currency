@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: currencyexchange
+  datasource:
+    url: jdbc:postgresql://localhost:5432/currency
+    username: postgres
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 5
+      validation-timeout: 500
+      connection-timeout: 2000
+      max-lifetime: 840000
+      keepalive-time: 30000
+      maximum-pool-size: 10
+      transaction-isolation: TRANSACTION_REPEATABLE_READ
+  jpa:
+    show-sql: true
+  liquibase:
+    enabled: true
+    change-log: /changelog/changelog.xml
+  jackson:
+    default-property-inclusion: non_null
+server:
+  port: 8080
+  shutdown: graceful
+
+exchange:
+  rate:
+    api:
+      url: https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_MxHm6dQs4FuAzJqMQgcu8EP9UZsCOpzeGQMp8ndt
